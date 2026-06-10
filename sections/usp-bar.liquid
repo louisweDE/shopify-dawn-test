@@ -1,0 +1,65 @@
+{{ 'pdp-custom.css' | asset_url | stylesheet_tag }}
+
+<div class="usp-bar">
+    <ul class="usp-bar__list" role="list">
+        {%- for block in section.blocks -%}
+            <li class="usp-bar__item" {{ block.shopify_attributes }}>
+        <span class="usp-bar__icon{% if block.settings.icon == 'deutschland' %} usp-bar__icon--full{% endif %}">
+          {%- assign icon_file = 'icon-usp-' | append: block.settings.icon | append: '.svg' -%}
+            {{- icon_file | inline_asset_content -}}
+        </span>
+                <p class="usp-bar__label">{{ block.settings.label }}</p>
+            </li>
+        {%- endfor -%}
+    </ul>
+</div>
+
+{% schema %}
+{
+  "name": "USP-Leiste",
+  "tag": "section",
+  "class": "section-usp-bar",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "USP",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Omega-Schutz (Blatt)" },
+            { "value": "glass", "label": "Laborzertifiziert (Reagenzglas)" },
+            { "value": "microscope", "label": "Gentechnikfrei (Mikroskop)" },
+            { "value": "leaf", "label": "Vegan (Blatt)" },
+            { "value": "water-drop", "label": "Omega-3 (Tropfen)" },
+            { "value": "germany-outline", "label": "Deutschland (Karte)" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Beschriftung",
+          "default": "Omega-Schutz"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "USP-Leiste",
+      "blocks": [
+        { "type": "usp", "settings": { "icon": "shield", "label": "Omega-Schutz" } },
+        { "type": "usp", "settings": { "icon": "glass", "label": "Laborzertifiziert" } },
+        { "type": "usp", "settings": { "icon": "microscope", "label": "Gentechnikfrei" } },
+        { "type": "usp", "settings": { "icon": "leaf", "label": "Vegan" } },
+        { "type": "usp", "settings": { "icon": "water-drop", "label": "Omega-3-reich" } },
+        { "type": "usp", "settings": { "icon": "germany-outline", "label": "Herstellung in Deutschland" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

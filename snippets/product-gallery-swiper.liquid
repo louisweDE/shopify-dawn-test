@@ -1,0 +1,74 @@
+<div
+        class="pdp-gallery{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
+        id="PdpGallery-{{ section.id }}"
+        data-pdp-gallery
+>
+    <div class="pdp-gallery__thumbs swiper">
+        <ul class="swiper-wrapper list-unstyled" role="list">
+            {%- for media in product.media -%}
+                <li class="swiper-slide pdp-gallery__thumb">
+                    {%- liquid
+                        assign thumb_loading = 'lazy'
+                        if forloop.index <= 4
+                            assign thumb_loading = 'eager'
+                        endif
+                    -%}
+                    {{
+                    media.preview_image
+                    | image_url: width: 128
+                    | image_tag: loading: thumb_loading, widths: '64, 128', alt: media.alt
+                    }}
+                </li>
+            {%- endfor -%}
+        </ul>
+    </div>
+
+    <div class="pdp-gallery__main-wrap">
+        <div class="pdp-gallery__main swiper">
+            <ul class="swiper-wrapper list-unstyled" role="list">
+                {%- for media in product.media -%}
+                    <li class="swiper-slide pdp-gallery__slide">
+                        {%- liquid
+                            assign loading = 'lazy'
+                            if forloop.first
+                                assign loading = 'eager'
+                            endif
+                        -%}
+                        <a
+                                href="{{ media.preview_image | image_url: width: 2000 }}"
+                                class="glightbox"
+                                data-gallery="product-gallery"
+                        >
+                            {{
+                            media.preview_image
+                            | image_url: width: 1100
+                            | image_tag:
+                            loading: loading,
+                            sizes: '(min-width: 990px) 550px, 100vw',
+                            widths: '375, 550, 750, 1100',
+                            alt: media.alt
+                            }}
+                        </a>
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </div>
+
+        <div class="pdp-gallery__nav small-hide">
+            <button
+                    type="button"
+                    class="pdp-gallery__nav-btn pdp-gallery__nav-prev"
+                    aria-label="{{ 'general.slider.previous_slide' | t }}"
+            >
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+            </button>
+            <button
+                    type="button"
+                    class="pdp-gallery__nav-btn pdp-gallery__nav-next"
+                    aria-label="{{ 'general.slider.next_slide' | t }}"
+            >
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+            </button>
+        </div>
+    </div>
+</div>
