@@ -91,6 +91,14 @@
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
             </span>
+            {%- if product.selected_or_first_available_variant.available
+              and quantity_rule_soldout != true
+              and product.selected_or_first_available_variant != null
+            -%}
+              <span class="pdp-cart-icon" aria-hidden="true">
+                {{- 'icon-cart-bag.svg' | inline_asset_content -}}
+              </span>
+            {%- endif -%}
             {%- render 'loading-spinner' -%}
           </button>
           {%- if show_dynamic_checkout -%}
